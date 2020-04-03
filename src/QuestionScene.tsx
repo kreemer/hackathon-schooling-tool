@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   FormControl,
@@ -20,8 +20,16 @@ import {
   ExpansionPanelSummary,
   Typography,
   ExpansionPanelDetails,
+  Chip,
+  Box,
+  Avatar,
+  Zoom,
+  Fab,
+  useTheme,
 } from "@material-ui/core";
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import AddIcon from "@material-ui/icons/Add";
+import Dialog from '@material-ui/core/Dialog';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,16 +49,66 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: theme.typography.pxToRem(15),
       fontWeight: theme.typography.fontWeightRegular,
     },
+    expansionSummary: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    chip: {
+      marginRight: theme.spacing(1),
+    },
+    teacherAvatarContainer: {
+      minWidth: 56,
+    },
+    fab: {
+      position: "absolute",
+      right: theme.spacing(2),
+      bottom: theme.spacing(2),
+    },
   })
 );
 
 function QuestionScene() {
+  const [newQuestionOpen, setNewQuestionOpen] = useState(false);
+
   const classes = useStyles();
+  const theme = useTheme();
+
+  const transitionDuration = {
+    enter: theme.transitions.duration.enteringScreen,
+    exit: theme.transitions.duration.leavingScreen,
+  };
 
   return (
     <Container style={{ padding: 5 }}>
       <ExistingQuestionsCard />
-      <NewQuestionCard />
+
+      {
+        <Dialog
+          onClose={() => setNewQuestionOpen(false)}
+          aria-labelledby="simple-dialog-title"
+          open={newQuestionOpen}
+        >
+          <NewQuestionCard />
+        </Dialog>
+      }
+
+      <Zoom
+        in={true}
+        timeout={transitionDuration}
+        style={{
+          transitionDelay: `${transitionDuration.exit}ms`,
+        }}
+        unmountOnExit
+      >
+        <Fab
+          color="primary"
+          className={classes.fab}
+          onClick={() => setNewQuestionOpen(true)}
+        >
+          <AddIcon />
+        </Fab>
+      </Zoom>
     </Container>
   );
 }
@@ -66,18 +124,29 @@ function ExistingQuestionsCard() {
           <ExpansionPanelSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
-            id="panel1a-header"
           >
-            <Typography className={classes.heading}>
-              Wann können wir wieder zur Schule kommen?
-            </Typography>
+            <Box className={classes.expansionSummary}>
+              <Chip
+                className={classes.chip}
+                style={{ backgroundColor: "green" }}
+                label="Beantwortet"
+              />
+              <Typography className={classes.heading}>
+                Du: Wann können wir wieder zur Schule kommen?
+              </Typography>
+            </Box>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-              eget.
-            </Typography>
+            <Box className={classes.expansionSummary}>
+              <Box className={classes.teacherAvatarContainer}>
+                <Avatar>H</Avatar>
+              </Box>
+
+              <Typography>
+                Zurzeit ist die Situation noch unklar, dementsprechend kann ich
+                Dir leider noch keine Auskunft geben.
+              </Typography>
+            </Box>
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </CardContent>

@@ -35,7 +35,7 @@ function App() {
       <CssBaseline />
       <Container
         maxWidth="md"
-        style={{ backgroundColor: "#cfe8fc", height: "100vh", padding: 0 }}
+        style={{ backgroundColor: "#cfe8fc", height: "100vh", padding: 0, position: "relative" }}
       >
         <TopAppBar />
         <ClassRoomActions
