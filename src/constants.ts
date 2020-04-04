@@ -1,0 +1,1 @@
+export const videoChatBaseUrl = "http://localhost:3500/call/"

@@ -16,6 +16,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import CameraIcon from "@material-ui/icons/CameraAltRounded";
+import { videoChatBaseUrl } from "./constants";
 
 const useStyles = makeStyles({
   root: {
@@ -35,19 +36,19 @@ export default function ClassRoomScene() {
   return (
     <Grid container className={classes.root}>
       <Grid item xs={4} className={classes.gridItem}>
-        <ClassRoomCard />
+        <ClassRoomCard id={1} name={"Klassenzimmer 112"}/>
       </Grid>
       <Grid item xs={4} className={classes.gridItem}>
-        <ClassRoomCard />
+        <ClassRoomCard id={2} name={"Klassenzimmer 200"}/>
       </Grid>
       <Grid item xs={4} className={classes.gridItem}>
-        <ClassRoomCard />
+        <ClassRoomCard id={3} name={"Klassenzimmer 3"}/>
       </Grid>
     </Grid>
   );
 }
 
-export const ClassRoomCard: React.FC<{}> = () => {
+export const ClassRoomCard: React.FC<{id: number, name: string}> = ({name, id}) => {
   const classes = useStyles();
 
   return (
@@ -55,7 +56,7 @@ export const ClassRoomCard: React.FC<{}> = () => {
       <CardActionArea>
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Klassenzimmer 224
+            {name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             <ListItem button>
@@ -71,7 +72,7 @@ export const ClassRoomCard: React.FC<{}> = () => {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" onClick={() => window.open(videoChatBaseUrl + id)}>
           Zimmer beitreten
         </Button>
       </CardActions>
