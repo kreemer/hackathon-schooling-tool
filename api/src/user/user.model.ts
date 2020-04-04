@@ -19,6 +19,12 @@ export class User extends Model<User> {
   @Column
   lastName: string;
 
+  @Column
+  loginToken: string;
+  
+  @Column({ defaultValue: false })
+  isTeacher: boolean;
+
   @Column({ defaultValue: true })
   isActive: boolean;
 }
